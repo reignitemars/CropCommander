@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CropCommander.Website", "CropCommander.Website\CropCommander.Website.csproj", "{9F9861CE-0101-4D34-B5D8-B1C8641EB95D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CropCommander.Common", "CropCommander.Common\CropCommander.Common.csproj", "{5F083FEA-0F24-4566-9778-D4CD5E9E7651}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CropCommander.API", "CropCommander.API\CropCommander.API.csproj", "{29609AD8-82EA-4A03-AEF1-84310D5F3C30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{9F9861CE-0101-4D34-B5D8-B1C8641EB95D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F9861CE-0101-4D34-B5D8-B1C8641EB95D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F9861CE-0101-4D34-B5D8-B1C8641EB95D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F083FEA-0F24-4566-9778-D4CD5E9E7651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F083FEA-0F24-4566-9778-D4CD5E9E7651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F083FEA-0F24-4566-9778-D4CD5E9E7651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F083FEA-0F24-4566-9778-D4CD5E9E7651}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29609AD8-82EA-4A03-AEF1-84310D5F3C30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29609AD8-82EA-4A03-AEF1-84310D5F3C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29609AD8-82EA-4A03-AEF1-84310D5F3C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29609AD8-82EA-4A03-AEF1-84310D5F3C30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

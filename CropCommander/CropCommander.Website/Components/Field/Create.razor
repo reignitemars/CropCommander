@@ -1,5 +1,6 @@
-@using CropCommander.Website.Models
 @using CropCommander.Website.Services
+@using CropCommander.Common.Models
+@inject MediatR.IMediator Mediator
 
 <MudDialog @ref="_dialog">
     <DialogContent>
@@ -30,10 +31,7 @@
     {
         try
         {
-            var fieldService = new FieldService(new HttpClient());
-            await fieldService.AddFieldAsync(_field);
-            await OnFieldAdded.InvokeAsync();
-            await _dialog.CloseAsync();
+            // await Mediator.Send(new AddFieldQuery());
         }
         catch (Exception ex)
         {
