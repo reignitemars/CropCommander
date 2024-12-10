@@ -1,3 +1,4 @@
+@using CropCommander.Common.Commands
 @using CropCommander.Website.Services
 @using CropCommander.Common.Models
 @inject MediatR.IMediator Mediator
@@ -31,7 +32,10 @@
     {
         try
         {
-            // await Mediator.Send(new AddFieldQuery());
+            await Mediator.Send(new AddFieldCommand(_field.FieldName, _field.FieldArea, _field.CropName));
+
+            await CloseDialog();
+            await OnFieldAdded.InvokeAsync();
         }
         catch (Exception ex)
         {

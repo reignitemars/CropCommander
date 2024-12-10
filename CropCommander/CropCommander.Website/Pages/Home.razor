@@ -1,11 +1,9 @@
 ﻿@page "/"
 @using CropCommander.Common.Queries.Field
 @using CropCommander.Website.Components.Field
-@using CropCommander.Website.Models
 @using CropCommander.Website.Services
 @using Field = CropCommander.Common.Models.Field
 @inject IDialogService DialogService
-@inject FieldService FieldService
 @inject  MediatR.IMediator Mediator;
 
 <PageTitle>Home</PageTitle>
@@ -13,7 +11,7 @@
 <MudTextField @bind-Value="_filterText" Label="Search Fields" Immediate="true" OnKeyPress="@OnSearchKeyPress" />
 <MudButton Variant="Variant.Filled" OnClick="OpenAddFieldDialog">Add Field</MudButton>
 
-<MudDataGrid Items="_fields" Dense="true">
+<MudDataGrid Items="_filteredFields" Dense="true">
     <Columns>
         <PropertyColumn Property="x => x.FieldName" Title="Field Name" />
         <PropertyColumn Property="x => x.CropName" Title="Crop Name" />
@@ -22,11 +20,11 @@
     
 </MudDataGrid>
 
-<Create @ref="_addFieldDialog" OnFieldAdded="ReloadFields" />
+<Create @ref="_addFieldDialog"  OnFieldAdded="ReloadFields" />
 
 @code {
     private string _filterText = string.Empty;
-    private List<Field>? _fields = [];
+    private List<Field>? _filteredFields = [];
     private Create _addFieldDialog = null!;
     
     protected override async Task OnInitializedAsync()
@@ -38,7 +36,7 @@
 
     private async Task Refresh()
     {
-        _fields = await Mediator.Send(new GetFieldListQuery());
+        _filteredFields = await Mediator.Send(new GetFieldListQuery());
 
         StateHasChanged();
     }
