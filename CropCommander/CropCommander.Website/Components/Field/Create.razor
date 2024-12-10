@@ -1,0 +1,45 @@
+@using CropCommander.Website.Models
+@using CropCommander.Website.Services
+
+<MudDialog @ref="_dialog">
+    <DialogContent>
+        <MudTextField @bind-Value="_field.FieldName" Label="Field Name" Required="true" />
+        <MudNumericField @bind-Value="_field.FieldArea" Label="Field Area (ha)" Min="0" Required="true" />
+        <MudTextField @bind-Value="_field.CropName" Label="Crop Name" Required="true" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" OnClick="SaveField">Save</MudButton>
+        <MudButton Variant="Variant.Text" OnClick="CloseDialog">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private MudDialog _dialog = null!;
+    private Field _field = new();
+
+    [Parameter] 
+    public EventCallback OnFieldAdded { get; set; }
+
+    public async Task OpenAsync()
+    {
+        _field = new Field();
+        await _dialog.ShowAsync();
+    }
+
+    private async Task SaveField()
+    {
+        try
+        {
+            var fieldService = new FieldService(new HttpClient());
+            await fieldService.AddFieldAsync(_field);
+            await OnFieldAdded.InvokeAsync();
+            await _dialog.CloseAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    private Task CloseDialog() => _dialog.CloseAsync();
+}

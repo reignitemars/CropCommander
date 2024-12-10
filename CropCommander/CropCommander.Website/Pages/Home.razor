@@ -1,0 +1,60 @@
+﻿@page "/"
+@using CropCommander.Website.Components.Field
+@using CropCommander.Website.Models
+@using CropCommander.Website.Services
+@inject IDialogService DialogService
+@inject FieldService FieldService
+
+<PageTitle>Home</PageTitle>
+
+<MudTextField @bind-Value="_filterText" Label="Search Fields" Immediate="true" OnKeyPress="@OnSearchKeyPress" />
+<MudButton Variant="Variant.Filled" OnClick="OpenAddFieldDialog">Add Field</MudButton>
+
+<MudDataGrid Items="_filteredFields" Dense="true">
+    <Columns>
+        <PropertyColumn Property="x => x.FieldName" Title="Field Name" />
+        <PropertyColumn Property="x => x.CropName" Title="Crop Name" />
+        <PropertyColumn Property="x => x.FieldArea" Title="Field Area (ha)" />
+    </Columns>
+    
+</MudDataGrid>
+
+<Create @ref="_addFieldDialog" OnFieldAdded="ReloadFields" />
+
+@code {
+    private string _filterText = string.Empty;
+    private List<Field>? _filteredFields = [];
+    private Create _addFieldDialog = null!;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        await Refresh();
+    }
+
+    private async Task Refresh()
+    {
+        _filteredFields = await FieldService.GetFieldsAsync(_filterText);
+
+        StateHasChanged();
+    }
+
+    private async Task OnSearchKeyPress(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            await Refresh();
+        }
+    }
+
+    private async Task OpenAddFieldDialog()
+    {
+        await _addFieldDialog.OpenAsync();
+    }
+
+    private async Task ReloadFields()
+    {
+        await Refresh();
+    }
+}
