@@ -1,0 +1,6 @@
+@CropCommander.API_HostAddress = http://localhost:5121
+
+GET {{CropCommander.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

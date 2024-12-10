@@ -15,7 +15,8 @@ builder.Services.AddMudServices();
 
 builder.Services.AddScoped<FieldService>();
 builder.Services.AddSingleton<IDataAccess, FieldDataAccess>();
-builder.Services.AddMediatR(typeof(MediatRAssemblyEntry).Assembly);
+//builder.Services.AddMediatR(typeof(MediatRAssemblyEntry).Assembly);
+builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MediatRAssemblyEntry).Assembly));
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

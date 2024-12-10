@@ -1,9 +1,10 @@
 using CropCommander.Common.Models;
+using Microsoft.VisualBasic.FileIO;
 
 namespace CropCommander.Common.DataAccess;
 
 public interface IDataAccess
 {
     List<Field> GetFields();
-    void AddField(Field field);
+    Field AddField(string fieldName, double fieldArea, string cropName);
 }
