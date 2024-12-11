@@ -2,7 +2,6 @@ using CropCommander.Common.Commands;
 using CropCommander.Common.Models;
 using CropCommander.Common.Queries.Field;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CropCommander.API.Controllers
@@ -13,16 +12,9 @@ namespace CropCommander.API.Controllers
     {
         // GET: api/<FieldController>
         [HttpGet]
-        public async Task<List<Field>> Get() 
-            => await mediator.Send(new GetFieldListQuery());
-
-        // GET api/<FieldController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+        public async Task<List<Field>> Get([FromQuery] string? query)
+            => await mediator.Send(new GetFieldListQuery(query));
+        
         // POST api/<FieldController>
         [HttpPost]
         public async Task<Field> Post([FromBody] Field value) 

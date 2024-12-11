@@ -4,17 +4,19 @@ using MediatR;
 
 namespace CropCommander.Common.Handlers.Field;
 
-public class GetFieldListHandler : IRequestHandler<GetFieldListQuery, List<Models.Field>>
+public class GetFieldListHandler(IDataAccess dataAccess) : IRequestHandler<GetFieldListQuery, List<Models.Field>>
 {
-    private readonly IDataAccess _dataAccess;
-    
-    public GetFieldListHandler(IDataAccess dataAccess)
-    {
-        _dataAccess = dataAccess;
-    }
-    
     public Task<List<Models.Field>> Handle(GetFieldListQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(_dataAccess.GetFields().ToList());
+        var fields = dataAccess.GetFields();
+
+        if (string.IsNullOrWhiteSpace(request.Query)) return Task.FromResult(fields);
+        var query = request.Query.ToLower();
+
+        fields = fields.Where(f =>
+            (f.FieldName?.ToLower().EndsWith(query) ?? false) ||
+            (f.CropName?.ToLower().EndsWith(query) ?? false)).ToList();
+
+        return Task.FromResult(fields);
     }
 }
