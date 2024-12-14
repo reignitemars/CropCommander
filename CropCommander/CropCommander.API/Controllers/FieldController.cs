@@ -19,5 +19,16 @@ namespace CropCommander.API.Controllers
         [HttpPost]
         public async Task<Field> Post([FromBody] Field value) 
             => await mediator.Send(new AddFieldCommand(value.FieldName, value.FieldArea, value.CropName));
+        
+        [HttpGet("exists")]
+        public async Task<bool> FieldNameExistsAsync([FromQuery] string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Field name cannot be null or empty.", nameof(name));
+            }
+
+            return await mediator.Send(new FieldNameExistsQuery(name));
+        }
     }
 }

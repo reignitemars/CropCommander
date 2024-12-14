@@ -1,21 +1,47 @@
 ﻿@page "/"
-@using CropCommander.Common.Queries.Field
 @using CropCommander.Website.Components.Field
+@using CropCommander.Website.Services
 @using Field = CropCommander.Common.Models.Field
-@inject  MediatR.IMediator Mediator;
 @inject IDialogService DialogService
+@inject FieldService FieldService
 
 <PageTitle>Home</PageTitle>
+
+<MudText Typo="Typo.h4">Fields</MudText>
+
+<MudContainer Style="padding: 1rem; margin: 1rem auto; background-color: #f9f9f9; border-radius: 8px; min-width: 100%;">
+    <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" >
+        <MudTextField @bind-Value="_filterText"
+                      Placeholder="Search"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      IconSize="Size.Medium"
+                      Class="mt-0"
+                      Immediate="true"
+                      OnKeyDown="@HandleKeyDown"
+                      Disabled="@(!string.IsNullOrEmpty(_currentFilter))"/>
+
+        @if (!string.IsNullOrEmpty(_currentFilter))
+        {
+            <MudChip T="string" Class="mt-2">
+                @_currentFilter
+                <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" OnClick="RemoveFilter" />
+            </MudChip>
+        }
+    </MudStack>
+</MudContainer>
 
 <MudContainer Style="padding: 1rem; margin: 1rem auto; background-color: #f9f9f9; border-radius: 8px; min-width: 100%; min-height: 100%">
     <MudDataGrid T="Field" Items="_filteredFields" Dense="true" Style="flex-grow: 1; min-height: 100%">
         <ToolBarContent>
-            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="3">
+            <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.Center" Style="min-width: 100%" Spacing="3">
                 <MudText Typo="Typo.h6" Class="">Fields</MudText>
                 <MudSpacer />
-                <MudTextField @bind-Value="_filterText" Text="@_filterText" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
-                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" TextChanged="@OnTextChange"/>
-                <MudButton Variant="Variant.Filled" OnClick="OpenAddFieldDialog">Add Field</MudButton>
+                <MudButton Variant="Variant.Filled"
+                           OnClick="OpenAddFieldDialog"
+                           StartIcon="@Icons.Material.Filled.Add">
+                    Add Field
+                </MudButton>
             </MudStack>
         </ToolBarContent>
         <Columns>
@@ -32,6 +58,7 @@
 
 @code {
     private string _filterText = string.Empty;
+    private string _currentFilter = string.Empty;
     private List<Field>? _filteredFields = [];
     
     protected override async Task OnInitializedAsync()
@@ -40,19 +67,29 @@
 
         await Refresh();
     }
-
+    
     private async Task Refresh()
     {
-        _filteredFields = await Mediator.Send(new GetFieldListQuery(_filterText));
-
+        // Apply filters to fetch data or update the UI
+        _filteredFields = await FieldService.GetFieldsAsync(_currentFilter);
         StateHasChanged();
     }
-
-    // private async Task OpenAddFieldDialog() => await _addFieldDialog.OpenAsync();
-
-    private async Task ReloadFields() => await Refresh();
-
-    private async Task OnTextChange(string arg) => await Refresh();
+    
+    private async Task HandleKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter" && !string.IsNullOrWhiteSpace(_filterText))
+        {
+            _currentFilter = _filterText.Trim(); // Set the single filter
+            _filterText = string.Empty;
+            await Refresh();
+        }
+    }
+    
+    private async Task RemoveFilter()
+    {
+        _currentFilter = string.Empty; // Clear the filter
+        await Refresh();
+    }
     
     private async Task OpenAddFieldDialog()
     {
