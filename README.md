@@ -62,7 +62,7 @@ Edit `appsettings.json` to configure your database connection:
 ```bash
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Port=5432;Database=BarnDB;Username=yourusername;Password=yourpassword"
+    "DefaultConnection": "Host=localhost;Port=port;Database=BarnDB;Username=yourusername;Password=yourpassword"
   }
 }
 ```
