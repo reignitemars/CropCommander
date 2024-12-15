@@ -16,6 +16,16 @@ CropCommander is a Blazor WebAssembly-based farm management system that helps fa
 - **Database**: PostgreSQL ¬@15.10 (local instance)
 - **CQRS**: Implements the CQRS (Command Query Responsibility Segregation) design pattern using MediatR to separate read and write operations.
 
+## Why CQRS?
+
+In **CropCommander**, we use the **CQRS** pattern to separate the operations that modify data (commands) from those that read data (queries). This approach provides several benefits:
+
+1. **Separation of Concerns**: Keeping read and write logic separate makes the system easier to maintain and update.
+
+2. **Optimized Performance**: By optimizing the read and write sides independently, we can improve performance. Queries can be designed for fast retrieval, and commands can focus on ensuring the integrity of data during updates.
+
+3. **Scalability**: With CQRS, we can scale read and write operations independently. If the system experiences high read traffic, the read side (queries) can be scaled without affecting the write side (commands). This flexibility allows the system to handle growing user demands.
+
 ## API Endpoints
 
 ### 1. `GET: api/field`
