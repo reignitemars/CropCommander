@@ -2,7 +2,6 @@ using CropCommander.Common;
 using CropCommander.Common.DataAccess;
 using CropCommander.Common.Handlers.Field;
 using FluentValidation;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,10 +25,6 @@ builder.Services.AddCors(options =>
 builder.Services.AddValidatorsFromAssemblyContaining<AddFieldHandler>();
 
 builder.Services.AddScoped<IDataAccess, FieldDataAccess>();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseNpgsql("Host=localhost;Port=5433;Database=BarnDB;Username=chris;Password=1234");
-});
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(MediatRAssemblyEntry).Assembly));
 
 var app = builder.Build();

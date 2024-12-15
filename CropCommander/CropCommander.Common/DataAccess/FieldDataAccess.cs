@@ -1,6 +1,4 @@
-using System.Data;
 using CropCommander.Common.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CropCommander.Common.DataAccess;

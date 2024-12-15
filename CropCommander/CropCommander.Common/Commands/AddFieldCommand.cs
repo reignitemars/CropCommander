@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using CropCommander.Common.Models;
 using MediatR;
 

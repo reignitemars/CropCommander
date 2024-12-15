@@ -1,7 +1,5 @@
 using System.Net.Http.Json;
-using CropCommander.Website.Services;
 using FluentValidation;
-using FluentValidation.Results;
 using Field = CropCommander.Common.Models.Field;
 
 namespace CropCommander.Website.Validators;

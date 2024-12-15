@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace CropCommander.Common;
 
@@ -11,7 +9,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<Applicatio
     {
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=BarnDB;Username=chris;Password=1234;");
+        optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=BarnDB;Username=scarecrow;Password=1234;");
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }
