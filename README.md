@@ -76,6 +76,12 @@ Edit `appsettings.json` to configure your database connection:
   }
 }
 ```
+### Restoring the nuget packages
+Before running the application, restore the necessary NuGet packages by running:
+```bash
+dotnet restore
+```
+
 ### Running the Application
 Run the application with:
 
